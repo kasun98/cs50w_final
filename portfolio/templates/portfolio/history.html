@@ -1,0 +1,84 @@
+{% extends "portfolio/layout.html" %}
+{% load static %}
+{% block title %}History{% endblock %}
+
+{% block body %}
+    
+
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <div class="container-index">
+        <div class="item-index" style="height: auto;">
+            <table style="background-color: rgba(255, 255, 255, 0); margin: 10px; overflow: hidden;" class="table table-dark table-borderless">
+                <thead>
+                    <tr>
+                      <th scope="col">Order ID</th>
+                      <th scope="col">Asset</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Order</th>
+                      <th scope="col">Cost USD</th>
+                      <th scope="col">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in orders %}
+                    <tr>
+                      <th scope="row">{{order.id}}</th>
+                      <td>{{order.asset}}</td>
+                      <td >{{order.value}}</td>
+                      {% if order.type == True %}
+                        <td style="color: rgb(4, 163, 4);">Buy</td>
+                      {% elif order.type == False %}
+                        <td style="color: rgb(163, 4, 4);">Sell</td>
+                      {% endif %}
+                      <td >{{order.assetval_usd|floatformat:4}}</td>
+                      <td >{{order.datetime}}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td>Nothing to show</td></tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+
+            {% if orders != none %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if orders.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ orders.previous_page_number }}">previous</a></li>
+                    {% endif %}
+            
+                    <li class="page-item">
+                        <a class="page-link" >Page {{ orders.number }} of {{ orders.paginator.num_pages }}</a>
+                    </li>
+            
+                    {% if orders.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ orders.next_page_number }}">next</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ orders.paginator.num_pages }}">last &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            
+        </div>
+
+        
+    
+    {% endif %}
+
+    
+    <hr>
+    
+
+    
+{% endblock %}

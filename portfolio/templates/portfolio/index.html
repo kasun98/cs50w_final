@@ -1,0 +1,103 @@
+{% extends "portfolio/layout.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block script %}
+    <script src="{% static 'portfolio/index.js' %}"></script>
+{% endblock %}
+{% block body %}
+    
+
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <div class="container-index">
+      <div class="item-index" style="display: flex; align-content: center; justify-content: center;">
+        <img src="https://res.cloudinary.com/dlb65j6di/image/upload/v1720947260/Picsart_24-07-14_14-23-16-310_llktxm.png" class="img-fluid" style="height: 100%;" alt="index">
+      </div>
+        <div class="item-index">
+            <table style="background-color: rgba(255, 255, 255, 0); margin: 10px; overflow: hidden;" class="table table-dark table-borderless">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Symbol</th>
+                      <th scope="col">Bid</th>
+                      <th scope="col">Ask</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>EURUSD</td>
+                      <td class="bidask" id="EURUSD-bid">{{rates.EUR}}</td>
+                      <td class="bidask" id="EURUSD-ask"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>GBPUSD</td>
+                      <td class="bidask" id="GBPUSD-bid">{{rates.GBP}}</td>
+                      <td class="bidask" id="GBPUSD-ask"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td >USDJPY</td>
+                      <td class="bidask" id="USDJPY-bid">{{rates.JPY}}</td>
+                      <td class="bidask" id="USDJPY-ask"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="{% url 'market' %}" class="fixed-link">Live Market</a>
+        </div>
+        <div class="item-index">
+            <table style="background-color: rgba(255, 255, 255, 0); margin: 10px; overflow: hidden;" class="table table-dark table-borderless">
+                <thead>
+                    <tr>
+                      <th scope="col">Order ID</th>
+                      <th scope="col">Asset</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Order</th>
+                      <th scope="col">USD Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in orders %}
+                    <tr>
+                      <th scope="row">{{order.id}}</th>
+                      <td>{{order.asset}}</td>
+                      <td>{{order.value}}</td>
+                      {% if order.type == True %}
+                        <td style="color: rgb(4, 163, 4);">Buy</td>
+                      {% elif order.type == False %}
+                        <td style="color: rgb(163, 4, 4);">Sell</td>
+                      {% else %}
+                        <td></td>
+                      {% endif %}
+                      <td>{{order.assetval_usd|floatformat:4}}</td>
+                    </tr>
+                    {% empty %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'orders' %}" class="fixed-link">Orders History</a>
+        </div>
+        <div class="item-index">
+            <div id="pie"></div>
+            <a href="{% url 'portfolio' %}" class="fixed-link">See more</a>
+        </div>
+        
+    </div>
+    {% endif %}
+
+    
+    <hr>
+    
+
+    
+{% endblock %}

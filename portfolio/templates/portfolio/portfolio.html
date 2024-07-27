@@ -1,0 +1,243 @@
+{% extends "portfolio/layout.html" %}
+{% load static %}
+{% block title %}My Wallet{% endblock %}
+{% load multiply %}
+{% block script %}
+    <script src="{% static 'portfolio/wallet.js' %}"></script>
+{% endblock %}
+{% block body %}
+
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="container-index">
+
+      <div class="item-index" style="display: flex; flex-direction: row; background: rgba(0, 0, 0, 0); border: none;">
+        <div class="item-index-inside" style="display: grid; place-items: center;">
+            <div >
+                <h4 style="text-align: center; margin-top: 10px; font-family:Verdana, Geneva, Tahoma, sans-serif;">Balance USD</h4>
+                <h3 id="sum" style="text-align: center; margin-top: 10px; font-family:Verdana, Geneva, Tahoma, sans-serif; color: chocolate;">00.00</h3>
+            </div>
+        </div>
+        <div class="item-index-inside" style="display: grid; place-items: center; min-width: 100px;">
+            <div >
+                <h4 style="text-align: center; margin-top: 10px; font-family:Verdana, Geneva, Tahoma, sans-serif;">Gain</h4>
+                <h4 id="gain" style="text-align: center; margin-top: 10px; font-family:Verdana, Geneva, Tahoma, sans-serif;">+0%</h4>
+            </div>
+        </div>
+    </div>
+      
+      <div class="item-index">
+        <div id="pie"></div>
+      </div>
+      
+        <div class="item-index-scroll">
+            <table style="background-color: rgba(255, 255, 255, 0); margin: 10px; height: auto; width: 95%;" class="table table-dark table-borderless">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Asset</th>
+                      <th scope="col">Holdings</th>
+                      <th scope="col">Live rate</th>
+                      <th scope="col">Initial USD value</th>
+                      <th scope="col">Current USD value</th>
+                    </tr>
+                    
+                  </thead>
+                  <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>USD</td>
+                        <td class="bidask" id="USD-h">{{portfolio.USD}}</td>
+                        <td class="bidask" name="USD-b" id="USD-bid">1.0000</td>
+                        
+                        <td class="bidask-i" id="USD-i">{{ portfolio.USD|multiply:order.USD }}</td>
+                  
+                        <td class="bidask-c" id="USD-c"></td>
+                      </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>EUR</td>
+                      <td class="bidask" id="EUR-h">{{portfolio.EUR}}</td>
+                      <td class="bidask" name="EUR-b" id="EURUSD-bid">{{rates.EUR}}</td>
+                      
+                      <td class="bidask-i" id="EUR-i">{{ portfolio.EUR|multiply:order.EUR }}</td>
+                      
+                      <td class="bidask-c" id="EUR-c"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>GBP</td>
+                      <td class="bidask" id="GBP-h">{{portfolio.GBP}}</td>
+                      <td class="bidask" name="GBP-b" id="GBPUSD-bid">{{rates.GBP}}</td>
+                      
+                      <td class="bidask-i" id="GBP-i">{{ portfolio.GBP|multiply:order.GBP }}</td>
+                     
+                      <td class="bidask-c" id="GBP-c"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">4</th>
+                      <td >JPY</td>
+                      <td class="bidask" id="JPY-h">{{portfolio.JPY}}</td>
+                      <td class="bidask" name="JPY-b" id="USDJPY-bid">{{rates.JPY}}</td>
+                      
+                      <td class="bidask-i" id="JPY-i">{{ portfolio.JPY|multiply:order.JPY }}</td>
+                      
+                      <td class="bidask-c" id="JPY-c"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">5</th>
+                      <td >CHF</td>
+                      <td class="bidask" id="CHF-h">{{portfolio.CHF}}</td>
+                      <td class="bidask" name="CHF-b" id="USDCHF-bid">{{rates.CHF}}</td>
+                     
+                      <td class="bidask-i" id="CHF-i">{{ portfolio.CHF|multiply:order.CHF }}</td>
+                      
+                      <td class="bidask-c" id="CHF-c"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">6</th>
+                      <td >CAD</td>
+                      <td class="bidask" id="CAD-h">{{portfolio.CAD}}</td>
+                      <td class="bidask" name="CAD-b" id="USDCAD-bid">{{rates.CAD}}</td>
+                      
+                      <td class="bidask-i" id="CAD-i">{{ portfolio.CAD|multiply:order.CAD }}</td>
+                      
+                      <td class="bidask-c" id="CAD-c"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">7</th>
+                      <td >AUD</td>
+                      <td class="bidask" id="AUD-h">{{portfolio.AUD}}</td>
+                      <td class="bidask" name="AUD-b" id="AUDUSD-bid">{{rates.AUD}}</td>
+                      
+                      <td class="bidask-i" id="AUD-i">{{ portfolio.AUD|multiply:order.AUD }}</td>
+                      
+                      <td class="bidask-c" id="AUD-c"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">8</th>
+                      <td >NZD</td>
+                      <td class="bidask" id="NZD-h">{{portfolio.NZD}}</td>
+                      <td class="bidask" name="NZD-b" id="NZDUSD-bid">{{rates.NZD}}</td>
+                    
+                      <td class="bidask-i" id="NZD-i">{{ portfolio.NZD|multiply:order.NZD }}</td>
+                     
+                      <td class="bidask-c" id="NZD-c"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">9</th>
+                      <td >PLN</td>
+                      <td class="bidask" id="PLN-h">{{portfolio.PLN}}</td>
+                      <td class="bidask" name="PLN-b" id="USDPLN-bid">{{rates.PLN}}</td>
+                      
+                      <td class="bidask-i" id="PLN-i">{{ portfolio.PLN|multiply:order.PLN }}</td>
+                      
+                      <td class="bidask-c" id="PLN-c"></td>
+                    </tr>
+                    
+                    
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="item-index">
+          <div id="timeline-chart"></div>
+        </div>
+        
+    
+        <div class="item-index" style="background: linear-gradient(to right, #18182a, #07070c); border: 1px solid #44444400;">
+            <div class="form-container">
+                <select id="options" style="cursor:pointer">
+                    <option  disabled selected>Select Currency</option>
+                    <option id="USD" value="USD">USD</option>
+                    <option id="EURUSD" value="EUR">EUR</option>
+                    <option id="GBPUSD" value="GBP">GBP</option>
+                    <option id="USDJPY" value="JPY">JPY</option>
+                    <option id="USDCHF" value="CHF">CHF</option>
+                    <option id="USDCAD" value="CAD">CAD</option>
+                    <option id="AUDUSD" value="AUD">AUD</option>
+                    <option id="NZDUSD" value="NZD">NZD</option>
+                    <option id="USDPLN" value="PLN">PLN</option>
+                </select>
+                <input style="background: linear-gradient(to right, #18182a, #07070c);" required type="number" id="numberInput" placeholder="99.50" step="0.05">
+                <div class="button-container">
+                    <input type="button" id="decrement" class="toolbar1" value="-" onclick="transaction('-')">
+                    <input type="button" id="increment" class="toolbar2" value="+" onclick="transaction('+')">
+                </div>
+            </div>
+            
+        </div>
+        
+        
+
+        <div class="item-index" style="min-height: 500px;">
+          <!-- TradingView Widget BEGIN -->
+          <div class="tradingview-widget-container" >
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+            {
+            "interval": "1D",
+            "width": "100%",
+            "isTransparent": true,
+            "height": "100%",
+            "symbol": "FX:EURUSD",
+            "showIntervalTabs": true,
+            "displayMode": "single",
+            "locale": "en",
+            "colorTheme": "dark"
+            
+          }
+            </script>
+          </div>
+          <!-- TradingView Widget END -->
+        </div>
+
+        <div class="item-index" style="min-height: 500px;">
+          <table style="background-color: rgba(255, 255, 255, 0); margin: 10px; overflow: hidden;" class="table table-dark table-borderless">
+                <thead>
+                    <tr>
+                      <th scope="col">Order ID</th>
+                      <th scope="col">Asset</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Order</th>
+                      <th scope="col">USD Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in orders %}
+                    <tr>
+                      <th scope="row">{{order.id}}</th>
+                      <td>{{order.asset}}</td>
+                      <td>{{order.value}}</td>
+                      {% if order.type == True %}
+                        <td style="color: rgb(4, 163, 4);">Buy</td>
+                      {% elif order.type == False %}
+                        <td style="color: rgb(163, 4, 4);">Sell</td>
+                      {% else %}
+                        <td></td>
+                      {% endif %}
+                      <td>{{order.assetval_usd|floatformat:4}}</td>
+                    </tr>
+                    {% empty %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'orders' %}" class="fixed-link">View Orders History</a>
+        </div>
+      
+    </div>
+    
+
+    <hr>
+    
+
+    
+{% endblock %}
+

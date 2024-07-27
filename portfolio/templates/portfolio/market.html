@@ -1,0 +1,169 @@
+{% extends "portfolio/layout.html" %}
+{% load static %}
+{% block title %}Market{% endblock %}
+{% block script %}
+    <script src="{% static 'portfolio/market.js' %}"></script>
+{% endblock %}
+{% block body %}
+    
+
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="container-index">
+        <div class="item-index" style="height: auto; max-width: 500px;">
+            <table style="background-color: rgba(255, 255, 255, 0); margin: 10px; overflow: hidden;" class="table table-dark table-borderless">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Symbol</th>
+                      <th scope="col">Bid</th>
+                      <th scope="col">Ask</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>EURUSD</td>
+                      <td class="bidask" id="EURUSD-bid">{{rates.EUR}}</td>
+                      <td class="bidask" id="EURUSD-ask"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>GBPUSD</td>
+                      <td class="bidask" id="GBPUSD-bid">{{rates.GBP}}</td>
+                      <td class="bidask" id="GBPUSD-ask"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td >USDJPY</td>
+                      <td class="bidask" id="USDJPY-bid">{{rates.JPY}}</td>
+                      <td class="bidask" id="USDJPY-ask"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">4</th>
+                      <td >USDCHF</td>
+                      <td class="bidask" id="USDCHF-bid">{{rates.CHF}}</td>
+                      <td class="bidask" id="USDCHF-ask"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">5</th>
+                      <td >USDCAD</td>
+                      <td class="bidask" id="USDCAD-bid">{{rates.CAD}}</td>
+                      <td class="bidask" id="USDCAD-ask"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">6</th>
+                      <td >AUDUSD</td>
+                      <td class="bidask" id="AUDUSD-bid">{{rates.AUD}}</td>
+                      <td class="bidask" id="AUDUSD-ask"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">7</th>
+                      <td >NZDUSD</td>
+                      <td class="bidask" id="NZDUSD-bid">{{rates.NZD}}</td>
+                      <td class="bidask" id="NZDUSD-ask"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">8</th>
+                      <td >USDPLN</td>
+                      <td class="bidask" id="USDPLN-bid">{{rates.PLN}}</td>
+                      <td class="bidask" id="USDPLN-ask"></td>
+                    </tr>
+                    <!-- <tr>
+                      <th scope="row">9</th>
+                      <td >XAUUSD</td>
+                      <td class="bidask" id="XAUUSD-bid">loading</td>
+                      <td class="bidask" id="XAUUSD-ask"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">10</th>
+                      <td >XAGUSD</td>
+                      <td class="bidask" id="XAGUSD-bid">loading</td>
+                      <td class="bidask" id="XAGUSD-ask"></td>
+                    </tr> -->
+                </tbody>
+            </table>
+            
+        </div>
+
+        <div class="item-index" style="height: auto; min-height: 500px;">
+          <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <div class="tradingview-widget-copyright"><span class="blue-text"></span></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+            {
+            "symbols": [
+              [
+                "OANDA:EURUSD|1D"
+              ],
+              [
+                "OANDA:GBPUSD|1D"
+              ],
+              [
+                "OANDA:USDJPY|1D"
+              ],
+              [
+                "OANDA:USDCHF|1D"
+              ],
+              [
+                "OANDA:USDCAD|1D"
+              ],
+              [
+                "OANDA:AUDUSD|1D"
+              ],
+              [
+                "OANDA:NZDUSD|1D"
+              ],
+              [
+                "OANDA:USDPLN|1D"
+              ]
+            ],
+            "chartOnly": false,
+            "width": "100%",
+            "height": "100%",
+            "locale": "en",
+            "colorTheme": "dark",
+            "backgroundColor": "#10101c",
+            "autosize": true,
+            "showVolume": false,
+            "showMA": false,
+            "hideDateRanges": false,
+            "hideMarketStatus": false,
+            "hideSymbolLogo": true,
+            "scalePosition": "right",
+            "scaleMode": "Normal",
+            "fontFamily": "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
+            "fontSize": "10",
+            "noTimeScale": false,
+            "valuesTracking": "1",
+            "changeMode": "price-and-percent",
+            "chartType": "area",
+            "maLineColor": "#2962FF",
+            "maLineWidth": 1,
+            "maLength": 9,
+            "lineWidth": 2,
+            "lineType": 0,
+            "dateRanges": [
+              "1d|1",
+              "1m|30",
+              "3m|60",
+              "12m|1D",
+              "60m|1W",
+              "all|1M"
+            ]
+          }
+            </script>
+          </div>
+        </div>
+    </div>
+    <hr>
+    
+{% endblock %}
